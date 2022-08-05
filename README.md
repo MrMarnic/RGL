@@ -14,7 +14,7 @@ Shader language = GLSL
 
 # Example
 
-'''
+```
 fn main() {
     let mut game_window = GameWindow::new("Test".to_string(),1100,1100,200,200,Color::new(44,93,130),true);
     let game_events = GameEvents::new();
@@ -23,4 +23,4 @@ fn main() {
 
     block_on(game_events.run(scene_handler,game_window,Backends::DX12));
 }
-'''
+```
