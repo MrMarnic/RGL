@@ -1357,6 +1357,7 @@ checksum = "da32515d9f6e6e489d7bc9d84c71b060db7247dc035bbe44eac88cf87486d8d5"
 [[package]]
 name = "openal-sys"
 version = "0.1.0"
+source = "git+https://github.com/MrMarnic/rgl-openal-sys#7bd5b1c817a0714f72d63522b1c60352bf883c1d"
 dependencies = [
  "bindgen",
 ]
@@ -1604,6 +1605,7 @@ dependencies = [
 [[package]]
 name = "rgl_font"
 version = "0.1.0"
+source = "git+https://github.com/MrMarnic/rgl-font#185a9e739137d2b70aeced041d5b6ff2fe9ead3f"
 dependencies = [
  "freetype-rs",
  "image",

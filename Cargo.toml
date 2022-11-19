@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-openal-sys = {path="E:\\RustProjects\\openal-sys"}
+openal-sys = {git="https://github.com/MrMarnic/rgl-openal-sys"}
 wgpu = {version="0.12", features = ["spirv","glsl"]}
 winit = "0.26.0"
 env_logger = "0.9.0"
@@ -21,4 +21,4 @@ sysinfo = "0.22.3"
 byteorder = "1.4.3"
 tobj = "3.2.0"
 naga = "0.8"
-rgl_font = {path="F:\\RustProjects\\rgl_font"}
+rgl_font = {git="https://github.com/MrMarnic/rgl-font"}
