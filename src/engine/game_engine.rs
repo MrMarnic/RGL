@@ -1,6 +1,6 @@
 use std::time::Instant;
 use log::info;
-use wgpu::{Backends, CommandEncoder, Device, LoadOp, Operations, PresentMode, Queue, RenderPass, RenderPassDepthStencilAttachment, Surface, SurfaceConfiguration, TextureView};
+use wgpu::{Backends, CommandEncoder, Device, Dx12Compiler, InstanceDescriptor, LoadOp, Operations, PresentMode, Queue, RenderPass, RenderPassDepthStencilAttachment, Surface, SurfaceConfiguration, TextureView};
 use winit::dpi::PhysicalSize;
 use crate::audio::audio_handler::AudioHandler;
 use crate::engine::game_window::GameWindow;
@@ -54,8 +54,8 @@ impl GameEngine {
 
         let bounds = Bounds::new(0.0,0.0,size.width as f32,size.height as f32);
 
-        let instance = wgpu::Instance::new(backend);
-        let surface = unsafe { instance.create_surface(window) };
+        let instance = wgpu::Instance::new(InstanceDescriptor { backends: backend, dx12_shader_compiler: Dx12Compiler::Fxc });
+        let surface = unsafe { instance.create_surface(window).unwrap() };
         let adapter = instance.request_adapter(
             &wgpu::RequestAdapterOptions {
                 power_preference: wgpu::PowerPreference::default(),
@@ -75,12 +75,22 @@ impl GameEngine {
             None, // Trace path
         ).await.unwrap();
 
+        let surface_caps = surface.get_capabilities(&adapter);
+
+        let surface_format = surface_caps.formats.iter()
+            .copied()
+            .filter(|f| f.describe().srgb)
+            .next()
+            .unwrap_or(surface_caps.formats[0]);
+
         let config = wgpu::SurfaceConfiguration {
             usage: wgpu::TextureUsages::RENDER_ATTACHMENT,
-            format: surface.get_preferred_format(&adapter).unwrap(),
+            format: surface_format,
             width: size.width,
             height: size.height,
             present_mode: game_window.get_present_mode(),
+            alpha_mode: Default::default(),
+            view_formats: vec![],
         };
 
         surface.configure(&device,&config);
@@ -131,7 +141,7 @@ impl GameEngine {
         let mut render_pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
             label: None,
             color_attachments: &[
-                wgpu::RenderPassColorAttachment {
+                Some(wgpu::RenderPassColorAttachment {
                     view,
                     resolve_target: None,
                     ops: wgpu::Operations {
@@ -143,7 +153,7 @@ impl GameEngine {
                         }),
                         store: true,
                     }
-                }
+                })
             ],
             depth_stencil_attachment: None,
         });
@@ -155,7 +165,7 @@ impl GameEngine {
         let mut render_pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
             label: None,
             color_attachments: &[
-                wgpu::RenderPassColorAttachment {
+                Some(wgpu::RenderPassColorAttachment {
                     view: frame,
                     resolve_target: None,
                     ops: wgpu::Operations {
@@ -167,7 +177,7 @@ impl GameEngine {
                         }),
                         store: true,
                     }
-                }
+                })
             ],
             depth_stencil_attachment: Some(RenderPassDepthStencilAttachment {
                 view: &depth_texture.view,
@@ -186,14 +196,14 @@ impl GameEngine {
         let mut render_pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
             label: None,
             color_attachments: &[
-                wgpu::RenderPassColorAttachment {
+                Some(wgpu::RenderPassColorAttachment {
                     view: frame,
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Load,
                         store: true,
                     }
-                }
+                })
             ],
             depth_stencil_attachment: None,
         });
@@ -205,14 +215,14 @@ impl GameEngine {
         let mut render_pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
             label: None,
             color_attachments: &[
-                wgpu::RenderPassColorAttachment {
+                Some(wgpu::RenderPassColorAttachment {
                     view: frame,
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Load,
                         store: true,
                     }
-                }
+                })
             ],
             depth_stencil_attachment: Some(RenderPassDepthStencilAttachment {
             view: &depth_texture.view,

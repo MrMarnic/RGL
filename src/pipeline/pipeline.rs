@@ -35,7 +35,7 @@ impl RenderPipelineGroupBuilder {
         let vs_src = std::fs::read_to_string(vertex_shader_path.clone()).unwrap();
         let fs_src = std::fs::read_to_string(fragment_shader_path.clone()).unwrap();
 
-        let vs_module = device.create_shader_module(&ShaderModuleDescriptor {
+        let vs_module = device.create_shader_module(ShaderModuleDescriptor {
             label: None,
             source: ShaderSource::Glsl {
                 shader: Cow::from(vs_src.as_str()),
@@ -44,7 +44,7 @@ impl RenderPipelineGroupBuilder {
             }
         });
 
-        let fs_module = device.create_shader_module(&ShaderModuleDescriptor {
+        let fs_module = device.create_shader_module(ShaderModuleDescriptor {
             label: None,
             source: ShaderSource::Glsl {
                 shader: Cow::from(fs_src.as_str()),
@@ -183,7 +183,7 @@ impl RenderPipelineGroup {
                 FragmentState {
                     module: &builder.fragment_shader.unwrap(),
                     entry_point: "main",
-                    targets: &[ColorTargetState {
+                    targets: &[Some(ColorTargetState {
                         format: config.format,
                         write_mask: ColorWrites::ALL,
                         blend: Some(BlendState {
@@ -198,7 +198,7 @@ impl RenderPipelineGroup {
                                 operation: BlendOperation::Add
                             }
                         })
-                    }]
+                    })]
                 }
             ),
             multisample: MultisampleState {

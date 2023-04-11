@@ -101,7 +101,7 @@ impl TextRenderPipelineGroup {
                 FragmentState {
                     module: &builder.fragment_shader.unwrap(),
                     entry_point: "main",
-                    targets: &[ColorTargetState {
+                    targets: &[Some(ColorTargetState {
                         format: config.format,
                         write_mask: ColorWrites::ALL,
                         blend: Some(BlendState {
@@ -116,7 +116,7 @@ impl TextRenderPipelineGroup {
                                 operation: BlendOperation::Add
                             }
                         })
-                    }]
+                    })]
                 }
             ),
             multisample: MultisampleState {
