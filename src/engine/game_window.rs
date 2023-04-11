@@ -15,7 +15,6 @@ pub struct GameWindow {
 
 impl GameWindow {
     pub fn new(title: String, mut width: i32, mut height: i32,x:i32,y:i32,clear_color:Color,vsync:bool) -> GameWindow {
-
         let event_loop = EventLoop::new();
 
         let w = WindowBuilder::new().with_title(title.clone()).with_inner_size(Size::Logical(LogicalSize::new(width as f64,height as f64)))
