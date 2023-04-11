@@ -27,7 +27,7 @@ impl ColorRenderer {
     }
 
 
-    pub fn render_color_queue<'a>(&'a mut self, offset:&mut BufferAddress, color:Color, pos:&TVec3<f32>, scale:&TVec3<f32>, camera:&'a Camera, queue:&Queue) {
+    pub fn render_color_queue<'a>(&'a mut self, offset:&mut BufferAddress, color:&Color, pos:&TVec3<f32>, scale:&TVec3<f32>, camera:&'a Camera, queue:&Queue) {
         queue.write_buffer(&camera.buffers[2],*offset,&*crate::objects::matrix_helper::get_bytes(&nalgebra_glm::scale(&nalgebra_glm::translation(pos),scale)));
         queue.write_buffer(&self.color_shader.color_buffer,self.to_render.len() as u64 * 256,&*crate::objects::matrix_helper::get_bytes_from_vec4(&vec4(color.r,color.g,color.b,color.a)));
         self.to_render.push(*offset);

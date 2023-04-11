@@ -17,6 +17,7 @@ impl Color {
     }
 
     pub fn new(r:i32,g:i32,b:i32) -> Color {
+
         return Color {
             r: r as f32/255.0,
             g: g as f32/255.0,
