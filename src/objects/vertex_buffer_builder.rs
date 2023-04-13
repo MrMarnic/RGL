@@ -47,6 +47,16 @@ impl VertexBufferBuilder {
         self
     }
 
+    pub fn add_rectangle(&mut self, x:f32, y:f32, z:f32, width:f32, height:f32,depth:f32){
+        let vertecies = vec![Vertex::new(x-width,y+height,z+depth,0.0,0.0),Vertex::new(x-width,y-height,z-depth,0.0,1.0),Vertex::new(x+width,y-height,z-depth,1.0,1.0),Vertex::new(x+width,y+height,z+depth,1.0,0.0)];
+        let indecies = vec![self.index_count,self.index_count+1,self.index_count+3,self.index_count+3,self.index_count+1,self.index_count+2];
+
+        self.vertecies.extend(vertecies);
+        self.indecies.extend(indecies);
+
+        self.index_count +=4;
+    }
+
     pub fn line(mut self, x1:f32, y1:f32, z1:f32, x2:f32, y2:f32, z2:f32, width:f32) -> Self{
 
         let mut width = width;
