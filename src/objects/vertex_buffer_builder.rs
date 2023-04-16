@@ -193,7 +193,7 @@ impl VertexBufferBuilder {
             }
         }
 
-        self.index_count += number * 6;
+        self.index_count += number * 4;
     }
 
     pub fn build(self,device:&Device) -> VertexBuffer {
