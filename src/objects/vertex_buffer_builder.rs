@@ -129,7 +129,7 @@ impl VertexBufferBuilder {
         self
     }
 
-    pub fn add_text(&mut self, lines:&Vec<String>,engine:&GameEngine, font:&Rc<RenderFont>,width:f32){
+    pub fn add_text(&mut self, lines:&Vec<String>,engine:&GameEngine, font:&Rc<RenderFont>,width:f32, x_start: f32, y_start: f32){
         let mut number = 0;
 
         let mut chars : Vec<Vec<char>> = vec![];
@@ -165,8 +165,8 @@ impl VertexBufferBuilder {
                         let mut vexs = vec![];
                         for v in &font.characters[&c].vertecies {
                             let mut vv = v.clone();
-                            vv.x = vv.x + last_pos + char.x_offset as f32;
-                            vv.y = vv.y - line_number as f32 * font.base.pixel_height as f32 + char.y_offset as f32;
+                            vv.x = x_start + vv.x + last_pos + char.x_offset as f32;
+                            vv.y = y_start + vv.y - line_number as f32 * font.base.pixel_height as f32 + char.y_offset as f32;
                             vexs.push(vv);
                         }
                         self.vertecies.extend_from_slice(&vexs);
@@ -179,8 +179,8 @@ impl VertexBufferBuilder {
                         let mut vexs = vec![];
                         for v in &font.characters[&c].vertecies {
                             let mut vv = v.clone();
-                            vv.x = vv.x + char.x_offset as f32;
-                            vv.y = vv.y - line_number as f32 * font.base.pixel_height as f32 + char.y_offset as f32;
+                            vv.x = x_start + vv.x + char.x_offset as f32;
+                            vv.y = y_start + vv.y - line_number as f32 * font.base.pixel_height as f32 + char.y_offset as f32;
                             vexs.push(vv);
                         }
                         self.vertecies.extend_from_slice(&vexs);
