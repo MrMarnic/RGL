@@ -1,8 +1,10 @@
+use std::rc::Rc;
 use nalgebra_glm::{TVec2, TVec3, vec2, vec3};
 use wgpu::Device;
 use crate::engine::game_engine::GameEngine;
 use crate::objects::vertex::Vertex;
 use crate::objects::vertex_buffer::VertexBuffer;
+use crate::text::render_font::RenderFont;
 
 pub struct VertexBufferBuilder {
     pub vertecies: Vec<Vertex>,
@@ -125,6 +127,73 @@ impl VertexBufferBuilder {
         }
 
         self
+    }
+
+    pub fn add_text(&mut self, lines:&Vec<String>,engine:&GameEngine, font:&Rc<RenderFont>,width:f32){
+        let mut number = 0;
+
+        let mut chars : Vec<Vec<char>> = vec![];
+
+        for l in lines {
+            chars.push(l.chars().collect::<Vec<char>>())
+        }
+
+        let mut unedited_chars = chars.clone();
+        let mut remapped_lines : Vec<String> = vec![];
+
+        while unedited_chars.len() > 0 {
+            let mut cs = unedited_chars.remove(0);
+
+            if let Some(index) = font.base.get_chars_test(width,&cs) {
+                if index == cs.len() - 1 {
+                    remapped_lines.push(cs.iter().collect());
+                } else {
+                    let a = cs.drain(0..index).collect::<String>();
+                    unedited_chars.insert(0,cs);
+                    remapped_lines.push(a);
+                }
+            }
+        }
+
+        for (line_number,text) in remapped_lines.iter().enumerate() {
+            let mut last_pos = 0.0;
+
+            for (id,c) in text.chars().enumerate() {
+                if !c.is_whitespace() {
+                    if id > 0 {
+                        let char = &font.characters[&c];
+                        let mut vexs = vec![];
+                        for v in &font.characters[&c].vertecies {
+                            let mut vv = v.clone();
+                            vv.x = vv.x + last_pos + char.x_offset as f32;
+                            vv.y = vv.y - line_number as f32 * font.base.pixel_height as f32 + char.y_offset as f32;
+                            vexs.push(vv);
+                        }
+                        self.vertecies.extend_from_slice(&vexs);
+
+                        self.indecies.extend_from_slice(&vec![self.index_count + 4 * number as u32,(self.index_count + 1) + 4 * number as u32,(self.index_count + 3) + 4 * number as u32,(self.index_count + 3) + 4 * number as u32,(self.index_count + 1) + 4 * number as u32,(self.index_count + 2) + 4 * number as u32]);
+                        self.index_count += 6;
+                        last_pos += char.x_advance as f32;
+                    } else {
+                        let char = &font.characters[&c];
+                        let mut vexs = vec![];
+                        for v in &font.characters[&c].vertecies {
+                            let mut vv = v.clone();
+                            vv.x = vv.x + char.x_offset as f32;
+                            vv.y = vv.y - line_number as f32 * font.base.pixel_height as f32 + char.y_offset as f32;
+                            vexs.push(vv);
+                        }
+                        self.vertecies.extend_from_slice(&vexs);
+                        self.indecies.extend_from_slice(&vec![self.index_count + 4 * number as u32,(self.index_count + 1) + 4 * number as u32,(self.index_count + 3) + 4 * number as u32,(self.index_count + 3) + 4 * number as u32,(self.index_count + 1) + 4 * number as u32,(self.index_count + 2) + 4 * number as u32]);
+                        last_pos += char.x_advance as f32;
+                        self.index_count += 6;
+                    }
+                    number += 1;
+                } else {
+                    last_pos += font.characters[&c].x_advance as f32;
+                }
+            }
+        }
     }
 
     pub fn build(self,device:&Device) -> VertexBuffer {
