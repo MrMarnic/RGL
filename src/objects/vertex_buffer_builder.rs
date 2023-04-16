@@ -172,7 +172,6 @@ impl VertexBufferBuilder {
                         self.vertecies.extend_from_slice(&vexs);
 
                         self.indecies.extend_from_slice(&vec![self.index_count + 4 * number as u32,(self.index_count + 1) + 4 * number as u32,(self.index_count + 3) + 4 * number as u32,(self.index_count + 3) + 4 * number as u32,(self.index_count + 1) + 4 * number as u32,(self.index_count + 2) + 4 * number as u32]);
-                        self.index_count += 6;
                         last_pos += char.x_advance as f32;
                     } else {
                         let char = &font.characters[&c];
@@ -186,7 +185,6 @@ impl VertexBufferBuilder {
                         self.vertecies.extend_from_slice(&vexs);
                         self.indecies.extend_from_slice(&vec![self.index_count + 4 * number as u32,(self.index_count + 1) + 4 * number as u32,(self.index_count + 3) + 4 * number as u32,(self.index_count + 3) + 4 * number as u32,(self.index_count + 1) + 4 * number as u32,(self.index_count + 2) + 4 * number as u32]);
                         last_pos += char.x_advance as f32;
-                        self.index_count += 6;
                     }
                     number += 1;
                 } else {
@@ -194,6 +192,8 @@ impl VertexBufferBuilder {
                 }
             }
         }
+
+        self.index_count += number * 6;
     }
 
     pub fn build(self,device:&Device) -> VertexBuffer {
