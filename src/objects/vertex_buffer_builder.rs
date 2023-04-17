@@ -61,7 +61,7 @@ impl VertexBufferBuilder {
     }
 
     pub fn add_rectangle_with_texcoord(&mut self, x:f32, y:f32, z:f32, width:f32, height:f32,depth:f32, coord:TexCoord){
-        let vertecies = vec![Vertex::new(x-width,y+height,z+depth,coord.tex_coords[0].x,coord.tex_coords[0].y),Vertex::new(x-width,y-height,z-depth,coord.tex_coords[1].x,coord.tex_coords[1].y),Vertex::new(x+width,y-height,z-depth,coord.tex_coords[2].x,coord.tex_coords[2].y),Vertex::new(x+width,y+height,z+depth,coord.tex_coords[3].x,coord.tex_coords[3].y)];
+        let vertecies = vec![Vertex::new(x-width,y+height,z+depth,coord.tex_coords[0].x,coord.tex_coords[0].y),Vertex::new(x-width,y-height,z-depth,coord.tex_coords[1].x,coord.tex_coords[1].y),Vertex::new(x+width,y-height,z-depth,coord.tex_coords[3].x,coord.tex_coords[3].y),Vertex::new(x+width,y+height,z+depth,coord.tex_coords[2].x,coord.tex_coords[2].y)];
         let indecies = vec![self.index_count,self.index_count+1,self.index_count+3,self.index_count+3,self.index_count+1,self.index_count+2];
 
         self.vertecies.extend(vertecies);
