@@ -2,6 +2,7 @@ use std::rc::Rc;
 use nalgebra_glm::{TVec2, TVec3, vec2, vec3};
 use wgpu::Device;
 use crate::engine::game_engine::GameEngine;
+use crate::objects::tex_coord::TexCoord;
 use crate::objects::vertex::Vertex;
 use crate::objects::vertex_buffer::VertexBuffer;
 use crate::text::render_font::RenderFont;
@@ -51,6 +52,16 @@ impl VertexBufferBuilder {
 
     pub fn add_rectangle(&mut self, x:f32, y:f32, z:f32, width:f32, height:f32,depth:f32){
         let vertecies = vec![Vertex::new(x-width,y+height,z+depth,0.0,0.0),Vertex::new(x-width,y-height,z-depth,0.0,1.0),Vertex::new(x+width,y-height,z-depth,1.0,1.0),Vertex::new(x+width,y+height,z+depth,1.0,0.0)];
+        let indecies = vec![self.index_count,self.index_count+1,self.index_count+3,self.index_count+3,self.index_count+1,self.index_count+2];
+
+        self.vertecies.extend(vertecies);
+        self.indecies.extend(indecies);
+
+        self.index_count +=4;
+    }
+
+    pub fn add_rectangle_with_texcoord(&mut self, x:f32, y:f32, z:f32, width:f32, height:f32,depth:f32, coord:TexCoord){
+        let vertecies = vec![Vertex::new(x-width,y+height,z+depth,coord.tex_coords[0].x,coord.tex_coords[0].y),Vertex::new(x-width,y-height,z-depth,coord.tex_coords[1].x,coord.tex_coords[1].y),Vertex::new(x+width,y-height,z-depth,coord.tex_coords[2].x,coord.tex_coords[2].y),Vertex::new(x+width,y+height,z+depth,coord.tex_coords[3].x,coord.tex_coords[3].y)];
         let indecies = vec![self.index_count,self.index_count+1,self.index_count+3,self.index_count+3,self.index_count+1,self.index_count+2];
 
         self.vertecies.extend(vertecies);

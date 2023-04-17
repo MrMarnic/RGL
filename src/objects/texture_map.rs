@@ -27,4 +27,8 @@ impl TextureMap{
     pub fn get_tex_coord_at(&self,x:i32,y:i32) -> TexCoord {
         return TexCoord::new_from_texture(x as f32,y as f32,self.normal_size as f32,self.normal_size as f32,self.texture.clone());
     }
+
+    pub fn get_tex_coord_at_with_size(&self,x:i32,y:i32,width:i32,height:i32) -> TexCoord {
+        return TexCoord::new_from_texture(x as f32,y as f32,width as f32,height as f32,self.texture.clone());
+    }
 }
