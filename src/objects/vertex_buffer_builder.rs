@@ -46,7 +46,6 @@ impl VertexBufferBuilder {
         self.indecies.extend(indecies);
 
         self.index_count +=4;
-
         self
     }
 
