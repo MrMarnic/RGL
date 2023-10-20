@@ -47,8 +47,8 @@ impl TextureObject{
 
         let data_layout = ImageDataLayout {
             offset: 0,
-            bytes_per_row: NonZeroU32::new(4 * size.width as u32),
-            rows_per_image: NonZeroU32::new(size.height as u32)
+            bytes_per_row: Some(4 * size.width as u32),
+            rows_per_image: Some(size.height as u32)
         };
 
         queue.write_texture(ImageCopyTexture {
@@ -96,8 +96,8 @@ impl TextureObject{
     pub fn update(&self,queue:&Queue,image:&ImageBuffer<Rgba<u8>,Vec<u8>>) {
         let data_layout = ImageDataLayout {
             offset: 0,
-            bytes_per_row: NonZeroU32::new(4 * self.size.width as u32),
-            rows_per_image: NonZeroU32::new(self.size.height as u32)
+            bytes_per_row: Some(4 * self.size.width as u32),
+            rows_per_image: Some(self.size.height as u32)
         };
 
         queue.write_texture(ImageCopyTexture {
@@ -130,8 +130,8 @@ impl TextureObject{
 
         let data_layout = ImageDataLayout {
             offset: 0,
-            bytes_per_row: NonZeroU32::new(4 * size.width as u32),
-            rows_per_image: NonZeroU32::new(size.height as u32)
+            bytes_per_row: Some(4 * size.width as u32),
+            rows_per_image: Some(size.height as u32)
         };
 
         queue.write_texture(ImageCopyTexture {

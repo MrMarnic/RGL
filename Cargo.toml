@@ -7,18 +7,18 @@ edition = "2021"
 
 [dependencies]
 openal-sys = {git="https://github.com/MrMarnic/rgl-openal-sys"}
-wgpu = {version="0.15", features = ["spirv","glsl"]}
-winit = "0.28.3"
+wgpu = {version="0.17.0", features = ["spirv","glsl"]}
+winit = "0.28.6"
 env_logger = "0.10.0"
-log = "0.4.14"
+log = "0.4.19"
 nalgebra-glm = "0.18.0"
-chrono = "0.4.24"
-nalgebra = "0.32.2"
-image = "0.24.1"
+chrono = "0.4.26"
+nalgebra = "0.32.3"
+image = "0.24.6"
 lewton = "0.10.1"
 minimp3 = "0.5.0"
-sysinfo = "0.28.4"
+sysinfo = "0.29.7"
 byteorder = "1.4.3"
-tobj = "3.2.0"
-naga = "0.11.0"
+tobj = "4.0.0"
+naga = "0.13.0"
 rgl_font = {git="https://github.com/MrMarnic/rgl-font"}
