@@ -17,9 +17,10 @@ impl ModelInstance {
         Self { model, transform, offset: 0 }
     }
 
-    pub fn update(&mut self, engine:&mut GameEngine, camera:&Camera) {
+    pub fn init(&mut self, engine:&mut GameEngine) {
         self.offset = engine.static_offset_handler.get_offset() as u32;
-
+    }
+    pub fn update(&mut self, engine:&mut GameEngine, camera:&Camera) {
         engine.queue.write_buffer(&camera.buffers[2],self.offset as u64,&*crate::objects::matrix_helper::get_bytes(&self.transform.matrix));
     }
 
