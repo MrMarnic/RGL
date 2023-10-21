@@ -133,3 +133,9 @@ impl AudioSource {
         }
     }
 }
+
+impl Drop for AudioSource {
+    fn drop(&mut self) {
+        self.destroy();
+    }
+}

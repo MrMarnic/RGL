@@ -79,3 +79,9 @@ impl AudioData {
     }
 
 }
+
+impl Drop for AudioData {
+    fn drop(&mut self) {
+        self.destroy();
+    }
+}
