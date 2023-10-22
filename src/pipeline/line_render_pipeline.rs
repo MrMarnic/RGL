@@ -63,7 +63,7 @@ impl LineRenderPipelineGroup {
         group_builder.bind_groups_layouts.push(layout2);
         group_builder.bind_groups.push(group2);
 
-        let group = group_builder.build(device,config,OnlyCoordsVertexBuffer::desc(),PrimitiveTopology::LineList,false,"Line".to_string());
+        let group = group_builder.build(device,config,OnlyCoordsVertexBuffer::desc(),PrimitiveTopology::LineList,true,"Line".to_string());
 
         return LineRenderPipelineGroup { group, color_buffer, transform_buffer: buffer2 }
     }
