@@ -179,9 +179,3 @@ impl AudioHandler {
         return self.audio_sources.lock().unwrap().len();
     }
 }
-
-impl Drop for AudioHandler {
-    fn drop(&mut self) {
-        self.destroy();
-    }
-}
