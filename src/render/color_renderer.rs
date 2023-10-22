@@ -20,7 +20,7 @@ pub struct ColorRenderer {
 impl ColorRenderer {
     pub fn new(wd:String,device:&Device,config:&SurfaceConfiguration) -> ColorRenderer {
         unsafe {
-            let group = ColorRenderPipelineGroup::new(format!("{}\\{}",wd.clone(),"assets\\shader\\color\\vertex.shader"),format!("{}\\{}",wd.clone(),"assets\\shader\\color\\fragment.shader"),device,config,false);
+            let group = ColorRenderPipelineGroup::new(format!("{}\\{}",wd.clone(),"assets\\shader\\color\\vertex.shader"),format!("{}\\{}",wd.clone(),"assets\\shader\\color\\fragment.shader"),device,config,true);
             let mesh = OnlyCoordsVertexBuffer::default_vertex_buffer(device,false);
             return ColorRenderer { color_shader: group, mesh, to_render: vec![], color_offset_handler: StaticOffsetHandler::new(20,20) }
         }
