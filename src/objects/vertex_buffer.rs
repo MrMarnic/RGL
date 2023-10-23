@@ -95,9 +95,9 @@ impl VertexBuffer {
 }
 
 pub struct OnlyCoordsVertexBuffer{
-    pub(crate) vertecies: Vec<OnlyCoordsVertex>,
+    pub vertecies: Vec<OnlyCoordsVertex>,
     pub indecies: Vec<u32>,
-    pub(crate) buffer: Buffer,
+    pub buffer: Buffer,
     pub index_buffer: Buffer
 }
 
@@ -171,9 +171,9 @@ impl OnlyCoordsVertexBuffer {
 }
 
 pub struct NormalVertexBuffer{
-    pub(crate) vertecies: Vec<NormalVertex>,
+    pub vertecies: Vec<NormalVertex>,
     pub indecies: Vec<u32>,
-    pub(crate) buffer: Buffer,
+    pub buffer: Buffer,
     pub index_buffer: Buffer
 }
 
