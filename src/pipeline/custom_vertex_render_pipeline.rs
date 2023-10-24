@@ -29,7 +29,7 @@ impl CustomVertexRenderPipelineGroup {
         group2_builder2.bind_groups_layouts.push(Camera::bind_group_layout(device));
         group2_builder2.bind_groups_layouts.push(Camera::transform_bind_group(device));
 
-        let group2 = group2_builder2.build(device,config,VertexBuffer::desc(),PrimitiveTopology::TriangleList,true,"Custom Vertex Depth".to_string());
+        let group2 = group2_builder2.build(device,config,VertexBuffer::desc(),PrimitiveTopology::TriangleList,false,"Custom Vertex Depth".to_string());
 
         return CustomVertexRenderPipelineGroup { group: group2, group_depth: group2_depth }
     }
