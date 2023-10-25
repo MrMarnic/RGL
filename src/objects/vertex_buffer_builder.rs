@@ -10,7 +10,7 @@ use crate::text::render_font::RenderFont;
 pub struct VertexBufferBuilder {
     pub vertecies: Vec<Vertex>,
     pub indecies: Vec<u32>,
-    index_count: u32
+    pub index_count: u32
 }
 
 impl VertexBufferBuilder {
